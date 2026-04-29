@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
-<!-- update -->
+
     <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -45,21 +45,21 @@
       /* THEME TOKENS                                                  */
       /* ============================================================ */
       :root {
-        --bg:           #04040a;
-        --bg-soft:      #08081a;
+        --bg:           #0a0c18;
+        --bg-soft:      #11142a;
         --text:         #f3f4f8;
         --text-strong:  #ffffff;
-        --text-soft:    rgba(255, 255, 255, 0.65);
-        --text-muted:   rgba(255, 255, 255, 0.45);
-        --text-faint:   rgba(255, 255, 255, 0.30);
-        --glass-bg:     rgba(15, 17, 35, 0.45);
-        --glass-border: rgba(255, 255, 255, 0.08);
-        --grid-line:    rgba(0, 212, 255, 0.04);
+        --text-soft:    rgba(255, 255, 255, 0.72);
+        --text-muted:   rgba(255, 255, 255, 0.52);
+        --text-faint:   rgba(255, 255, 255, 0.34);
+        --glass-bg:     rgba(20, 22, 42, 0.55);
+        --glass-border: rgba(255, 255, 255, 0.10);
+        --grid-line:    rgba(0, 212, 255, 0.05);
         --accent-violet:#8b5cf6;
         --accent-cyan:  #00d4ff;
         --accent-pink:  #ff2bd6;
         --noise-blend:  overlay;
-        --noise-opacity:0.05;
+        --noise-opacity:0.035;
         --gradient-start:#ffffff;
         --gradient-mid: #c4b5fd;
         --gradient-end: #00d4ff;
@@ -121,6 +121,34 @@
           linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
         background-size: 80px 80px;
         mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+      }
+
+      /* ============================================================ */
+      /* READABILITY SCRIM — a *very* gentle ambient softening so the  */
+      /* morphing background never fights with text. No heavy halos.   */
+      /* ============================================================ */
+      .bg-scrim {
+        position: fixed; inset: 0; z-index: 1; pointer-events: none;
+        background:
+          radial-gradient(ellipse 90% 75% at 50% 45%,
+            transparent 55%,
+            color-mix(in oklab, var(--bg) 35%, transparent) 100%);
+        transition: opacity 0.5s ease;
+      }
+      [data-theme="light"] .bg-scrim {
+        background:
+          radial-gradient(ellipse 90% 75% at 50% 45%,
+            transparent 60%,
+            color-mix(in oklab, var(--bg) 30%, transparent) 100%);
+      }
+
+      /* Subtle legibility lift for text directly over the canvas — a
+         single soft shadow, no smoky double halo. */
+      .text-on-bg {
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+      }
+      [data-theme="light"] .text-on-bg {
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.75);
       }
 
       body::before {
@@ -631,6 +659,7 @@
     <!-- 3D background canvas -->
     <canvas id="bg-canvas"></canvas>
     <div class="bg-grid"></div>
+    <div class="bg-scrim"></div>
 
     <!-- NAV -->
     <nav class="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-4 flex items-center justify-between glass border-b border-white/5">
@@ -669,10 +698,10 @@
       </div>
 
       <div class="relative z-10 px-6 max-w-5xl text-center">
-        <p class="hero-line font-mono text-xs tracking-[0.4em] text-neon-blue mb-6 uppercase">/ Portfolio · 2026</p>
-        <h1 class="hero-line font-display font-bold text-5xl sm:text-7xl md:text-8xl leading-[0.95] tracking-tight grad-text glow">Deo Ongotan</h1>
-        <p class="hero-line mt-6 text-lg md:text-2xl font-light text-white/85 glow-cyan">BSIT Graduate · Aspiring Web Developer / Software Developer</p>
-        <p class="hero-line mt-4 text-sm md:text-base text-white/55 max-w-2xl mx-auto leading-relaxed">Building modern, interactive, and user-focused digital experiences.</p>
+        <p class="hero-line text-on-bg font-mono text-xs tracking-[0.4em] text-neon-blue mb-6 uppercase">/ Portfolio · 2026</p>
+        <h1 class="hero-line text-on-bg font-display font-bold text-5xl sm:text-7xl md:text-8xl leading-[0.95] tracking-tight grad-text glow">Deo Ongotan</h1>
+        <p class="hero-line text-on-bg mt-6 text-lg md:text-2xl font-light text-white/90 glow-cyan">BSIT Graduate · Aspiring Web Developer / Software Developer</p>
+        <p class="hero-line text-on-bg mt-4 text-sm md:text-base text-white/70 max-w-2xl mx-auto leading-relaxed">Building modern, interactive, and user-focused digital experiences.</p>
 
         <div class="hero-line mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
           <a href="#projects" class="btn-glow inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-violet-glow to-neon-blue text-ink font-semibold text-sm tracking-wide">
@@ -946,11 +975,11 @@
       }
 
       /* ---------- THREE.JS ---------- */
-      let three = { mouseX: 0, mouseY: 0 };
+      let three = { mouseX: 0, mouseY: 0, scrollProgress: 0 };
       function initThree() {
         const canvas = document.getElementById("bg-canvas");
         const scene = new THREE.Scene();
-        const fogColor = (document.documentElement.getAttribute("data-theme") === "light") ? 0xeef1f8 : 0x04040a;
+        const fogColor = (document.documentElement.getAttribute("data-theme") === "light") ? 0xeef1f8 : 0x0a0c18;
         scene.fog = new THREE.FogExp2(fogColor, 0.045);
 
         const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 100);
@@ -965,22 +994,218 @@
         const cyanLight   = new THREE.PointLight(0x00d4ff, 2.2, 40); cyanLight.position.set(6, -2, 4); scene.add(cyanLight);
         const pinkLight   = new THREE.PointLight(0xff2bd6, 1.4, 30); pinkLight.position.set(0, 4, -3); scene.add(pinkLight);
 
+        /* ============================================================ */
+        /* AURORA BACKDROP — animated gradient plane behind the scene    */
+        /* ============================================================ */
+        const auroraUniforms = {
+          uTime:  { value: 0 },
+          uScroll:{ value: 0 },
+          uLight: { value: document.documentElement.getAttribute("data-theme") === "light" ? 1.0 : 0.0 },
+          uColorA:{ value: new THREE.Color(0x8b5cf6) },
+          uColorB:{ value: new THREE.Color(0x00d4ff) },
+          uColorC:{ value: new THREE.Color(0xff2bd6) },
+        };
+        const aurora = new THREE.Mesh(
+          new THREE.PlaneGeometry(80, 50, 1, 1),
+          new THREE.ShaderMaterial({
+            uniforms: auroraUniforms,
+            depthWrite: false,
+            depthTest: false,
+            side: THREE.DoubleSide,
+            vertexShader: `
+              varying vec2 vUv;
+              void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }
+            `,
+            fragmentShader: `
+              precision mediump float;
+              varying vec2 vUv;
+              uniform float uTime;
+              uniform float uScroll;
+              uniform float uLight;
+              uniform vec3 uColorA;
+              uniform vec3 uColorB;
+              uniform vec3 uColorC;
+
+              // soft blob falloff
+              float blob(vec2 uv, vec2 c, float r){
+                float d = distance(uv, c);
+                return smoothstep(r, 0.0, d);
+              }
+              void main(){
+                vec2 uv = vUv;
+                float t = uTime * 0.15 + uScroll * 2.4;
+
+                // three drifting blobs, each painting one of the brand hues
+                vec2 cA = vec2(0.30 + 0.18 * sin(t * 0.8),       0.35 + 0.20 * cos(t * 0.6));
+                vec2 cB = vec2(0.70 + 0.20 * cos(t * 0.7 + 1.2), 0.65 + 0.18 * sin(t * 0.9 + 0.4));
+                vec2 cC = vec2(0.50 + 0.30 * sin(t * 0.5 + 2.1), 0.20 + 0.25 * cos(t * 0.4 + 1.8));
+
+                float bA = blob(uv, cA, 0.55);
+                float bB = blob(uv, cB, 0.55);
+                float bC = blob(uv, cC, 0.45);
+
+                vec3 col = uColorA * bA + uColorB * bB + uColorC * bC * 0.6;
+
+                // dark-mode: very dim base so colors glow softly on near-black
+                // light-mode: the page bg already shows through, so we add only a
+                //   pale wash and let alpha do the work
+                vec3 base = mix(vec3(0.04, 0.04, 0.09), vec3(0.94, 0.95, 0.99), uLight);
+                col = base + col * mix(0.40, 0.18, uLight);
+
+                // gentle vignette so edges blend into the page bg
+                float d = distance(uv, vec2(0.5));
+                float vig = smoothstep(0.95, 0.25, d);
+                col *= vig;
+
+                // overall alpha — kept low in light mode to avoid bright wash,
+                // moderate in dark mode so it adds glow without overpowering text
+                float alpha = mix(0.55, 0.32, uLight) * vig;
+                gl_FragColor = vec4(col, alpha);
+              }
+            `,
+            transparent: true,
+          })
+        );
+        aurora.position.z = -14;
+        aurora.renderOrder = -10;
+        scene.add(aurora);
+
+        /* ============================================================ */
+        /* MORPHING BLOB — high-poly icosahedron displaced by 3D noise.  */
+        /* This is the centerpiece: rotates, breathes, and scroll        */
+        /* progress increases its displacement amplitude.                */
+        /* ============================================================ */
+        const blobUniforms = {
+          uTime:    { value: 0 },
+          uMorph:   { value: 0.0 },   // 0 → 1 driven by scroll
+          uAmp:     { value: 0.55 },  // base displacement
+          uHue:     { value: 0.0 },   // hue rotation driven by scroll
+          uColorA:  { value: new THREE.Color(0x8b5cf6) },
+          uColorB:  { value: new THREE.Color(0x00d4ff) },
+          uColorC:  { value: new THREE.Color(0xff2bd6) },
+          uOpacity: { value: 0.78 },
+        };
+        const blob = new THREE.Mesh(
+          new THREE.IcosahedronGeometry(1.55, 6),
+          new THREE.ShaderMaterial({
+            uniforms: blobUniforms,
+            transparent: true,
+            vertexShader: `
+              uniform float uTime;
+              uniform float uMorph;
+              uniform float uAmp;
+              varying vec3 vNormal;
+              varying float vDisp;
+              varying vec3 vPos;
+
+              // --- compact 3D simplex noise (Ashima) ---
+              vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x, 289.0);}
+              vec4 taylorInvSqrt(vec4 r){return 1.79284291400159 - 0.85373472095314 * r;}
+              float snoise(vec3 v){
+                const vec2 C = vec2(1.0/6.0, 1.0/3.0);
+                const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+                vec3 i  = floor(v + dot(v, C.yyy));
+                vec3 x0 = v - i + dot(i, C.xxx);
+                vec3 g = step(x0.yzx, x0.xyz);
+                vec3 l = 1.0 - g;
+                vec3 i1 = min(g.xyz, l.zxy);
+                vec3 i2 = max(g.xyz, l.zxy);
+                vec3 x1 = x0 - i1 + C.xxx;
+                vec3 x2 = x0 - i2 + 2.0 * C.xxx;
+                vec3 x3 = x0 - 1.0 + 3.0 * C.xxx;
+                i = mod(i, 289.0);
+                vec4 p = permute(permute(permute(
+                          i.z + vec4(0.0, i1.z, i2.z, 1.0))
+                        + i.y + vec4(0.0, i1.y, i2.y, 1.0))
+                        + i.x + vec4(0.0, i1.x, i2.x, 1.0));
+                float n_ = 1.0/7.0;
+                vec3  ns = n_ * D.wyz - D.xzx;
+                vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+                vec4 x_ = floor(j * ns.z);
+                vec4 y_ = floor(j - 7.0 * x_);
+                vec4 x = x_ * ns.x + ns.yyyy;
+                vec4 y = y_ * ns.x + ns.yyyy;
+                vec4 h = 1.0 - abs(x) - abs(y);
+                vec4 b0 = vec4(x.xy, y.xy);
+                vec4 b1 = vec4(x.zw, y.zw);
+                vec4 s0 = floor(b0)*2.0 + 1.0;
+                vec4 s1 = floor(b1)*2.0 + 1.0;
+                vec4 sh = -step(h, vec4(0.0));
+                vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy;
+                vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww;
+                vec3 p0 = vec3(a0.xy, h.x);
+                vec3 p1 = vec3(a0.zw, h.y);
+                vec3 p2 = vec3(a1.xy, h.z);
+                vec3 p3 = vec3(a1.zw, h.w);
+                vec4 norm = taylorInvSqrt(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));
+                p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
+                vec4 m = max(0.6 - vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)), 0.0);
+                m = m * m;
+                return 42.0 * dot(m*m, vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));
+              }
+
+              void main(){
+                vNormal = normalize(normalMatrix * normal);
+                float t = uTime * 0.35;
+                // layered noise → "morphing" surface
+                float n = snoise(position * (0.9 + uMorph * 0.6) + vec3(t, t * 0.7, -t * 0.5));
+                float n2 = snoise(position * 2.3 + vec3(-t * 0.8, t * 0.9, t * 0.4)) * 0.5;
+                float disp = (n + n2) * (uAmp + uMorph * 0.55);
+                vDisp = disp;
+                vec3 newPos = position + normal * disp;
+                vPos = newPos;
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(newPos, 1.0);
+              }
+            `,
+            fragmentShader: `
+              precision mediump float;
+              uniform float uHue;
+              uniform float uOpacity;
+              uniform vec3 uColorA;
+              uniform vec3 uColorB;
+              uniform vec3 uColorC;
+              varying vec3 vNormal;
+              varying float vDisp;
+              varying vec3 vPos;
+
+              void main(){
+                // mix the three brand colors by displacement + scroll
+                float m1 = smoothstep(-0.6, 0.6, vDisp + uHue);
+                float m2 = smoothstep(-0.4, 0.7, sin(vPos.y * 1.5 + uHue * 3.14));
+                vec3 col = mix(uColorA, uColorB, m1);
+                col = mix(col, uColorC, m2 * 0.45);
+
+                // fresnel rim → glassy edge glow
+                vec3 viewDir = normalize(cameraPosition - vPos);
+                float fres = pow(1.0 - clamp(dot(normalize(vNormal), viewDir), 0.0, 1.0), 2.4);
+                col += fres * 0.55;
+
+                // gentle inner shading
+                col *= 0.85 + 0.4 * dot(normalize(vNormal), vec3(0.4, 0.7, 0.6));
+
+                gl_FragColor = vec4(col, uOpacity);
+              }
+            `,
+          })
+        );
+        scene.add(blob);
+
+        /* ============================================================ */
+        /* SATELLITE SHAPES — secondary morphing accents                 */
+        /* ============================================================ */
         const group = new THREE.Group(); scene.add(group);
 
-        const knot = new THREE.Mesh(
-          new THREE.TorusKnotGeometry(1.4, 0.36, 180, 32),
-          new THREE.MeshStandardMaterial({ color: 0x0a0a18, metalness: 0.9, roughness: 0.18, emissive: 0x2a0a55, emissiveIntensity: 0.35 })
-        );
-        group.add(knot);
         const ico = new THREE.Mesh(new THREE.IcosahedronGeometry(0.9, 1), new THREE.MeshBasicMaterial({ color: 0x00d4ff, wireframe: true, transparent: true, opacity: 0.45 }));
         ico.position.set(-3.5, 1.6, -2); group.add(ico);
-        const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.55, 48, 48), new THREE.MeshStandardMaterial({ color: 0x8b5cf6, metalness: 0.5, roughness: 0.25, emissive: 0x4c1d95, emissiveIntensity: 0.5 }));
-        sphere.position.set(3.4, -1.4, -1.5); group.add(sphere);
         const torus = new THREE.Mesh(new THREE.TorusGeometry(0.55, 0.16, 28, 100), new THREE.MeshStandardMaterial({ color: 0x00d4ff, metalness: 0.7, roughness: 0.2, emissive: 0x0a4a66, emissiveIntensity: 0.6 }));
         torus.position.set(2.8, 2.2, -1); group.add(torus);
         const octa = new THREE.Mesh(new THREE.OctahedronGeometry(0.7, 0), new THREE.MeshBasicMaterial({ color: 0xff2bd6, wireframe: true, transparent: true, opacity: 0.35 }));
         octa.position.set(-3, -2.2, -2); group.add(octa);
+        // Keep these as no-ops to preserve existing scroll handler refs:
+        const knot = new THREE.Object3D();   group.add(knot);
+        const sphere = new THREE.Object3D(); group.add(sphere);
 
+        /* ---------- particles ---------- */
         const particleCount = innerWidth < 768 ? 700 : 2000;
         const particleGeo = new THREE.BufferGeometry();
         const positions = new Float32Array(particleCount * 3);
@@ -1002,19 +1227,17 @@
         grid.material.transparent = true; grid.material.opacity = 0.18; grid.position.y = -4.5;
         scene.add(grid);
 
-        Object.assign(three, { scene, camera, renderer, group, knot, ico, sphere, torus, octa, particles, grid });
+        Object.assign(three, { scene, camera, renderer, group, knot, ico, sphere, torus, octa, particles, grid, blob, blobUniforms, aurora, auroraUniforms });
 
         window.threeApi = {
           applyTheme(t) {
             const isLight = t === "light";
-            scene.fog.color = new THREE.Color(isLight ? 0xeef1f8 : 0x04040a);
+            scene.fog.color = new THREE.Color(isLight ? 0xeef1f8 : 0x0a0c18);
             renderer.setClearColor(0x000000, 0);
-            // Tone particles down on light bg so they don't get washed out
-            particles.material.opacity = isLight ? 0.55 : 0.85;
+            particles.material.opacity = isLight ? 0.45 : 0.85;
             grid.material.opacity = isLight ? 0.10 : 0.18;
-            // Knot keeps emissive — change ambient feel
-            knot.material.emissiveIntensity = isLight ? 0.25 : 0.35;
-            sphere.material.emissiveIntensity = isLight ? 0.45 : 0.5;
+            blobUniforms.uOpacity.value = isLight ? 0.55 : 0.78;
+            auroraUniforms.uLight.value = isLight ? 1.0 : 0.0;
           }
         };
         window.threeApi.applyTheme(document.documentElement.getAttribute("data-theme"));
@@ -1032,15 +1255,33 @@
         const clock = new THREE.Clock();
         (function loop() {
           const t = clock.getElapsedTime();
-          knot.rotation.x = t * 0.25; knot.rotation.y = t * 0.18;
+
+          // morphing blob — uniforms drive the shape
+          blobUniforms.uTime.value = t;
+          // gentle idle rotation; scroll handler adds extra tilt
+          blob.rotation.y = t * 0.18;
+          blob.rotation.x = Math.sin(t * 0.25) * 0.25;
+          // breathe with scroll
+          const breathe = 1 + Math.sin(t * 0.6) * 0.04;
+          blob.scale.setScalar(breathe * (1 + three.scrollProgress * 0.18));
+
+          // aurora animation
+          auroraUniforms.uTime.value = t;
+
+          // satellites
           ico.rotation.x = t * 0.4; ico.rotation.y = t * 0.3; ico.position.y = 1.6 + Math.sin(t * 0.8) * 0.25;
-          sphere.position.y = -1.4 + Math.sin(t * 0.6 + 1.5) * 0.3; sphere.rotation.y = t * 0.2;
           torus.rotation.x = t * 0.5; torus.rotation.y = t * 0.4; torus.position.x = 2.8 + Math.sin(t * 0.5) * 0.2;
           octa.rotation.x = -t * 0.35; octa.rotation.z = t * 0.25;
           particles.rotation.y = t * 0.02; particles.rotation.x = t * 0.01;
+
           camera.position.x += (three.mouseX * 0.6 - camera.position.x) * 0.04;
           camera.position.y += (-three.mouseY * 0.4 - camera.position.y) * 0.04;
           camera.lookAt(0, 0, 0);
+
+          // keep aurora behind the camera, locked to view
+          aurora.position.x = camera.position.x * 0.5;
+          aurora.position.y = camera.position.y * 0.5;
+
           renderer.render(scene, camera);
           requestAnimationFrame(loop);
         })();
@@ -1175,11 +1416,38 @@
         ScrollTrigger.create({
           trigger: "body", start: "top top", end: "bottom bottom", scrub: true,
           onUpdate: (self) => {
+            const p = self.progress;
+            three.scrollProgress = p;
+
+            // satellite group sweeps across the viewport
             if (three.group) {
-              three.group.rotation.y = self.progress * Math.PI * 1.4;
-              three.group.position.y = -self.progress * 2.5;
+              three.group.rotation.y = p * Math.PI * 1.4;
+              three.group.position.y = -p * 2.5;
             }
-            if (three.camera) three.camera.position.z = 8 - self.progress * 2;
+
+            // morphing blob — uniforms drive shape + color
+            if (three.blobUniforms) {
+              three.blobUniforms.uMorph.value = p;
+              three.blobUniforms.uHue.value = p * 2.0;
+            }
+            if (three.blob) {
+              three.blob.rotation.z = p * Math.PI * 0.6;
+              // tilt + drift so it feels like a 3D form transforming through space
+              three.blob.position.x = Math.sin(p * Math.PI * 2.0) * 1.6;
+              three.blob.position.y = -p * 1.8;
+              three.blob.position.z = -p * 2.5;
+            }
+
+            // aurora flow accelerates with scroll
+            if (three.auroraUniforms) {
+              three.auroraUniforms.uScroll.value = p;
+            }
+
+            // camera dolly + roll for that "transforming" feel
+            if (three.camera) {
+              three.camera.position.z = 8 - p * 3.5;
+              three.camera.rotation.z = p * 0.18;
+            }
           },
         });
         gsap.from(".about-anim", { scrollTrigger: { trigger: "#about", start: "top 70%" }, y: 60, opacity: 0, duration: 1, stagger: 0.15, ease: "power2.out" });
