@@ -813,7 +813,7 @@
           <h2 class="font-display text-4xl md:text-6xl font-semibold leading-tight">Crafted with <span class="grad-text">code & care</span>.</h2>
           <p class="mt-6 text-white/55 text-lg max-w-xl">A selection of recent work — click any card to dive deeper.</p>
         </div>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8" id="projectGrid"></div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch auto-rows-fr" id="projectGrid"></div>
       </div>
     </section>
 
@@ -928,6 +928,11 @@
         </button>
         <p class="sec-num mb-4" id="modalTag"></p>
         <h3 class="font-display text-3xl md:text-4xl font-semibold mb-4" id="modalTitle"></h3>
+        <div class="hidden w-full max-w-[420px] aspect-[16/10] mx-auto overflow-hidden rounded-lg bg-transparent mb-6" id="modalVideoWrap">
+          <video id="modalVideo" class="block w-full h-full object-cover bg-transparent" autoplay muted loop playsinline preload="metadata">
+            <source id="modalVideoSource" src="" type="video/mp4">
+          </video>
+        </div>
         <p class="text-white/70 leading-relaxed mb-6" id="modalDesc"></p>
         <div class="flex flex-wrap gap-2 mb-8" id="modalStack"></div>
         <div class="flex flex-wrap gap-3">
@@ -1289,7 +1294,7 @@
 
       /* ---------- DATA ---------- */
       const projects = [
-        { title: "Eunoia", tag: "Web App · Healthcare", desc: "An online booking system for psychological appointments. Patients can browse psychologists, schedule sessions in real time, and manage upcoming visits. Includes a dashboard for clinicians to confirm, reschedule, or cancel bookings.", stack: ["React","Firebase","Firestore","Tailwind"], live: "https://eunoia-psych-appoint.web.app", git: "https://github.com/" },
+        { title: "Eunoia", tag: "Web App · Healthcare", desc: "An online booking system for psychological appointments. Patients can browse psychologists, schedule sessions in real time, and manage upcoming visits. Includes a dashboard for clinicians to confirm, reschedule, or cancel bookings.", stack: ["React","Firebase","Firestore","Tailwind"], live: "https://eunoia-psych-appoint.web.app", git: "https://github.com/", video: "eunoia_video.mp4" },
         { title: "FinFlow Dashboard", tag: "Web App · Fintech", desc: "A personal finance tracker with real-time charts, category insights, and a snappy dark UI. Built as my BSIT capstone — handles budgets, recurring transactions, and monthly reports.", stack: ["React","Firebase","Chart.js","Tailwind"], live: "#", git: "#" },
         { title: "Campus Companion", tag: "Mobile App · Education", desc: "An Android app that helps students track class schedules, deadlines, and faculty announcements. Includes offline mode and push reminders.", stack: ["React Native","Firebase","Expo"], live: "#", git: "#" },
         { title: "Nova Storefront", tag: "E-commerce · Web", desc: "A modern e-commerce front-end with cart persistence, smooth product transitions, and a checkout flow tuned for conversion. Integrates a mock payment gateway.", stack: ["React","Firebase","Stripe"], live: "#", git: "#" },
@@ -1329,11 +1334,11 @@
       /* ---------- RENDER ---------- */
       const grid = document.getElementById("projectGrid");
       grid.innerHTML = projects.map((p, i) => `
-        <article class="project-card card-3d glass glass-glow rounded-2xl p-6 md:p-7 cursor-pointer" data-idx="${i}">
-          <div class="card-3d-inner">
-            <div class="flex items-center justify-between mb-5">
-              <span class="font-mono text-[9px] tracking-[0.3em] text-neon-blue uppercase">${p.tag}</span>
-              <span class="font-mono text-[9px] tracking-[0.3em] text-white/40">0${i + 1}</span>
+        <article class="project-card card-3d glass glass-glow rounded-2xl p-6 md:p-7 cursor-pointer h-full min-h-[500px] ${p.title === "Eunoia" ? "-translate-y-3" : ""}" data-idx="${i}">
+          <div class="card-3d-inner h-full flex flex-col">
+            <div class="flex items-center justify-between gap-4 mb-5 min-h-4">
+              <span class="min-w-0 truncate font-mono text-[9px] tracking-[0.24em] text-neon-blue uppercase">${p.tag}</span>
+              <span class="shrink-0 font-mono text-[9px] tracking-[0.3em] text-white/40">0${i + 1}</span>
             </div>
             <div class="aspect-[16/10] rounded-xl mb-6 overflow-hidden relative" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.18), rgba(0, 212, 255, 0.18)); border: 1px solid rgba(255,255,255,0.06);">
               <div class="absolute inset-0 flex items-center justify-center">
@@ -1341,12 +1346,12 @@
               </div>
               <div class="absolute top-3 left-3 font-mono text-[9px] tracking-[0.3em] text-white/40">/ FRAME 0${i + 2}</div>
             </div>
-            <h3 class="font-display text-xl font-semibold mb-2">${p.title}</h3>
-            <p class="text-white/55 text-sm leading-relaxed mb-5 line-clamp-3">${p.desc}</p>
-            <div class="flex flex-wrap gap-1.5 mb-5">
+            <h3 class="font-display text-xl font-semibold mb-2 min-h-[28px]">${p.title}</h3>
+            <p class="text-white/55 text-sm leading-relaxed mb-5 line-clamp-3 min-h-[72px]">${p.desc}</p>
+            <div class="flex flex-wrap gap-1.5 mb-5 min-h-[58px] content-start">
               ${p.stack.map(s => `<span class="px-2.5 py-1 rounded-full text-[10px] font-mono tracking-wide border border-white/10 text-white/60">${s}</span>`).join("")}
             </div>
-            <div class="flex items-center text-xs font-mono tracking-widest text-neon-blue uppercase">
+            <div class="mt-auto flex items-center text-xs font-mono tracking-widest text-neon-blue uppercase">
               View Details
               <svg class="ml-2" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
             </div>
@@ -1479,16 +1484,36 @@
       document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
       function openModal(i) {
         const p = projects[i]; if (!p) return;
+        const videoWrap = document.getElementById("modalVideoWrap");
+        const video = document.getElementById("modalVideo");
+        const videoSource = document.getElementById("modalVideoSource");
         document.getElementById("modalTag").textContent = p.tag;
         document.getElementById("modalTitle").textContent = p.title;
         document.getElementById("modalDesc").textContent = p.desc;
         document.getElementById("modalStack").innerHTML = p.stack.map(s => `<span class="px-3 py-1 rounded-full text-xs font-mono tracking-wide border border-white/10 text-white/70">${s}</span>`).join("");
         document.getElementById("modalLive").href = p.live;
         document.getElementById("modalGit").href = p.git;
+        if (p.video) {
+          videoSource.src = p.video;
+          video.load();
+          videoWrap.classList.remove("hidden");
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+          videoSource.src = "";
+          video.load();
+          videoWrap.classList.add("hidden");
+        }
         modal.classList.add("open");
         if (lenis) lenis.stop();
       }
-      function closeModal() { modal.classList.remove("open"); if (lenis) lenis.start(); }
+      function closeModal() {
+        const video = document.getElementById("modalVideo");
+        video.pause();
+        video.currentTime = 0;
+        modal.classList.remove("open");
+        if (lenis) lenis.start();
+      }
       document.querySelectorAll(".project-card").forEach(card => card.addEventListener("click", () => openModal(parseInt(card.dataset.idx, 10))));
 
       /* ---------- CONTACT ---------- */
