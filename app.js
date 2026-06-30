@@ -294,8 +294,9 @@ class PortfolioCoordinator {
     if (!form) return;
 
     form.addEventListener('submit', (e) => {
+      e.preventDefault(); // Stop native browser page redirect
+
       if (!form.checkValidity()) {
-        e.preventDefault();
         form.reportValidity();
         return;
       }
@@ -310,6 +311,7 @@ class PortfolioCoordinator {
       const replyToInput = form.querySelector('#form-replyto');
       const submittedAtInput = form.querySelector('#form-submitted-at');
       const inquiryIdInput = form.querySelector('#form-inquiry-id');
+      const successLayer = form.querySelector('#form-success');
 
       const senderName = nameInput.value.trim().replace(/\s+/g, ' ');
       const senderEmail = emailInput.value.trim();
@@ -320,6 +322,7 @@ class PortfolioCoordinator {
         timeStyle: 'short'
       });
 
+      // Update intermediate fields
       subjectInput.value = `New Portfolio Inquiry from ${senderName} - ${inquiryId}`;
       replyToInput.value = senderEmail;
       submittedAtInput.value = submittedAt;
@@ -328,8 +331,83 @@ class PortfolioCoordinator {
       emailInput.value = senderEmail;
       messageInput.value = message;
       
+      // Update button state (safely using timeout to allow submit sequence registration)
       submitBtn.disabled = true;
-      submitBtn.querySelector('.btn-text').textContent = "SENDING...";
+      const btnTextEl = submitBtn.querySelector('.btn-text');
+      const originalText = btnTextEl ? btnTextEl.textContent : "Send Message";
+      if (btnTextEl) btnTextEl.textContent = "SENDING...";
+
+      // AJAX post submission using FormSubmit AJAX endpoint
+      const formData = new FormData(form);
+      const actionUrl = form.getAttribute('action').replace('https://formsubmit.co/', 'https://formsubmit.co/ajax/');
+
+      fetch(actionUrl, {
+        method: "POST",
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+          // Display success state inside layer
+          if (successLayer) {
+            successLayer.classList.remove('error');
+            const titleEl = successLayer.querySelector('#form-status-title');
+            const descEl = successLayer.querySelector('#form-status-message');
+            if (titleEl) titleEl.textContent = "Message Sent Successfully";
+            if (descEl) descEl.textContent = "Thank you for reaching out. I'll get back to you within 24 hours.";
+            
+            // Set checkmark icon
+            const iconWrap = successLayer.querySelector('.success-icon');
+            if (iconWrap) {
+              iconWrap.innerHTML = `
+                <svg viewBox="0 0 24 24" width="36" height="36" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              `;
+            }
+            successLayer.classList.add('active');
+          }
+          form.reset();
+        } else {
+          throw new Error("FormSubmit server responded with error status.");
+        }
+      })
+      .catch(err => {
+        console.error("AJAX form submission failed:", err);
+        // Display error state inside layer
+        if (successLayer) {
+          successLayer.classList.add('error');
+          const titleEl = successLayer.querySelector('#form-status-title');
+          const descEl = successLayer.querySelector('#form-status-message');
+          if (titleEl) titleEl.textContent = "Submission Failed";
+          if (descEl) descEl.textContent = "Something went wrong. Please email directly at deoongotan@gmail.com";
+          
+          // Set error cross icon
+          const iconWrap = successLayer.querySelector('.success-icon');
+          if (iconWrap) {
+            iconWrap.innerHTML = `
+              <svg viewBox="0 0 24 24" width="36" height="36" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            `;
+          }
+          successLayer.classList.add('active');
+          
+          // Clear error state after 5 seconds to allow retry
+          setTimeout(() => {
+            successLayer.classList.remove('active');
+            submitBtn.disabled = false;
+            if (btnTextEl) btnTextEl.textContent = originalText;
+          }, 6000);
+        } else {
+          submitBtn.disabled = false;
+          if (btnTextEl) btnTextEl.textContent = originalText;
+          alert("Submission failed. Please email me directly at deoongotan@gmail.com.");
+        }
+      });
     });
   }
 
