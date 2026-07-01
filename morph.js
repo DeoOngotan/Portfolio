@@ -3,66 +3,66 @@ const CASE_STUDIES = {
   digitrike: {
     category: "SMART TRANSPORT & TRANSIT SYSTEMS",
     title: "DigiTrike Sudipen",
-    subtitle: "A mobile-responsive smart booking and fare mapping application built to eliminate transit fare disputes and scheduling friction.",
-    tech: ["React Native", "JavaScript", "Tailwind CSS"],
+    subtitle: "A real-time ridesharing web and mobile platform supporting passenger-driver matchmaking, live mapping, and native Android deployment.",
+    tech: ["React 18", "Firebase Suite", "Leaflet.js", "Capacitor 7", "Chart.js"],
     organization: "Sudipen Transport Cooperative",
-    role: "Frontend Developer & UI/UX Designer",
+    role: "Fullstack Web Developer & UI/UX Designer",
     duration: "3 Months (2024)",
-    overview: "DigiTrike Sudipen is a smart tricycle booking and fare tracking application designed to make local travel easier, faster, and more convenient for passengers and drivers in the municipality of Sudipen. By offering transparent fare estimations based on local ordinances and geofenced routing features, it eliminates manual dispatching overhead and coordinates bookings efficiently.",
+    overview: "DigiTrike Sudipen is a modern, real-time ridesharing web and mobile platform built specifically for passenger-driver matchmaking. It supports interactive real-time mapping, location synchronization, dynamic fare estimation, document-based role registration, comprehensive admin panels, and native Android deployment via Capacitor.",
     bgClass: "visual-digitrike",
     features: [
       {
-        title: "Real-Time Fare Calculations",
-        desc: "Calculates exact passenger costs based on official municipal distance regulations, establishing total fare transparency."
+        title: "Interactive Passenger Maps",
+        desc: "Real-time pin-drop mapping interface powered by Leaflet to request rides and track drivers."
       },
       {
-        title: "Direct Dispatch Queueing",
-        desc: "Connects commuters dynamically to nearby tricycle terminals through a responsive, mobile-first booking interface."
+        title: "Direct Dispatch Sockets",
+        desc: "Connects commuters dynamically to nearby tricycle terminals with background location tracking via Firestore."
       },
       {
-        title: "Offline Geofence Sockets",
-        desc: "Saves active route coordinate tables to local client memory, allowing the app to calculate fares even on weak cellular networks."
+        title: "Document Verification Workflow",
+        desc: "Allows admins to audit uploaded government/student IDs, driver's licenses, and selfie captures for validation."
       },
       {
-        title: "Driver Dashboard Profiles",
-        desc: "Enables local drivers to log availability statuses and coordinate trips efficiently without manual dispatch logs."
+        title: "System Analytics Board",
+        desc: "Visualizes revenue trajectories, passenger-driver distributions, and trip completion rates using dynamic Chart.js dashboards."
       }
     ],
-    process: "I mapped out high-contrast layout wireframes using Canva for maximum visibility under direct sunlight, then implemented the mobile-first frontend application using React Native and JavaScript for lightweight operations.",
-    challenges: "Unstable internet connectivity in rural transit zones. Resolved by caching geofence route bounds locally, shifting distance estimations from API calls to client-side memory.",
-    results: "Adopted by municipal tricycle cooperative drivers, introducing passenger fare transparency, streamlining dispatcher queues, and increasing booking efficiency by 40%.",
+    process: "Mapped out the layout wireframes using Canva, then engineered the web application using React 18, integrating Firebase Services and Leaflet maps before bridging to native Android via Capacitor.",
+    challenges: "Ensuring accurate location synchronization and driver-matching logic without draining mobile devices' battery. Resolved by building custom React hooks for throttle-controlled location watches.",
+    results: "Adopted by municipal drivers and passenger commuters, introducing fare transparency, streamlining queue dispatcher coordination, and stabilizing booking rates.",
     demoUrl: "https://digitrike-rgb.github.io/DigiTrike-Page/",
     githubUrl: "https://github.com/DeoOngotan"
   },
   eunoiamind: {
     category: "CLINICAL APPOINTMENT & MENTAL HEALTH PORTAL",
     title: "EunoiaMind",
-    subtitle: "A premium counseling scheduling application solving therapist double-bookings and manual intake bottlenecks.",
-    tech: ["React JS", "Firebase Suite", "Tailwind CSS", "Firestore", "Google Authentication"],
+    subtitle: "A premium counseling scheduling application featuring secure client intake flows, admin dashboards, and science-backed mindfulness exercises.",
+    tech: ["HTML5", "Vanilla JavaScript (ES6+)", "Tailwind CSS v3", "Firebase Suite", "Chart.js"],
     organization: "Eunoia Counseling Services",
     role: "Fullstack Web Developer & UX Designer",
     duration: "4 Months (2023)",
-    overview: "EunoiaMind is an interactive psychological appointment and therapy scheduling application designed to connect patients with licensed therapists. It solves manual intake paper bottlenecks, therapist-client scheduling conflicts, and session collisions by introducing an automated booking pipeline.",
+    overview: "EunoiaMind is a premium, modern, and comprehensive web-based Psychological Counseling & Appointment System. Built with a stunning aesthetic and robust functionality, EunoiaMind integrates seamlessly with Firebase to connect clients seeking mental health support with administrative managers and counselors. It features science-backed, interactive therapeutic tools like the Breathing Bubble and Gratitude Garden to help clients cultivate mindfulness and manage stress in real-time.",
     bgClass: "visual-eunoiamind",
     features: [
       {
-        title: "Interactive Booking Grid",
-        desc: "Allows patients to view licensed therapists, examine hourly availability windows, and reserve sessions instantly."
+        title: "Client Portal & Scheduler",
+        desc: "Secure logins with Google Authentication and appointment booking with custom date/time preferences."
       },
       {
-        title: "Secure Intake Encryption",
-        desc: "Captures and stores client intake responses safely using Firebase Firestore rules to ensure privacy."
+        title: "Mindfulness Tools",
+        desc: "Guided 4-4-6-2 box breathing pattern (Breathing Bubble) and an interactive journal (Gratitude Garden) for daily mental wellness."
       },
       {
-        title: "Mood Telemetry Graphing",
-        desc: "An interactive dashboard visualizing patient mental states and progress logs across weekly intervals."
+        title: "Admin Analytics Dashboard",
+        desc: "High-level overview of booking trends and user statistics visualized using custom Chart.js modules."
       },
       {
-        title: "Instant Email Dispatches",
-        desc: "Integrates Firebase Functions to automatically email patients and therapists session summaries upon booking edits."
+        title: "Client Management Panel",
+        desc: "Allows admins to audit user profiles, manage booking lifecycles, and configure counselor availability templates."
       }
     ],
-    process: "I designed a calming, high-fidelity visual layout in Canva, then built the application using React and Tailwind CSS, integrating real-time Firebase services.",
+    process: "Designed high-fidelity mockups in Canva, then built the responsive web portal using Vanilla JS modules, modular Firebase services, and Tailwind CSS.",
     challenges: "Preventing reservation transaction collisions when multiple users attempted to lock the same session slot simultaneously. Resolved by designing database write processes in Firestore transactions.",
     results: "Successfully deployed to a local counseling clinic, securely processing over 500 appointments with zero booking collision incidents.",
     demoUrl: "https://eunoia-psych-appoint.web.app/",
@@ -72,32 +72,32 @@ const CASE_STUDIES = {
     category: "CAMPUS MANAGEMENT & STUDENT PORTAL",
     title: "ISPSC OSAS Web Page",
     subtitle: "A digital hub centralizing organization directories, handbooks, and announcements for 1,500+ student profiles.",
-    tech: ["HTML5", "CSS3", "JavaScript", "Tailwind CSS", "Vercel Hosting"],
+    tech: ["HTML5", "CSS3 (Custom Variables)", "Vanilla JavaScript (ES6+)", "EmailJS SDK", "Vercel Hosting"],
     organization: "Ilocos Sur Polytechnic State College",
     role: "Solo Frontend Engineer & Designer",
     duration: "3 Months (2024)",
-    overview: "The Office of Student Affairs and Services (OSAS) at Ilocos Sur Polytechnic State College needed a centralized system to coordinate with student bodies, track organization events, and deliver announcements. The OSAS Web Page serves as a digital hub linking students to active clubs, handbooks, and guidance logs, solving manual paper printing overhead.",
+    overview: "The Office of Student Affairs and Services (OSAS) Portal of the ISPSC Tagudin Campus is a premium, modern, responsive, and highly interactive multi-page web application. It serves as a digital information hub linking students to active clubs, registrar handbooks, health services, cashier billing guidelines, and counselor channels.",
     bgClass: "visual-osas",
     features: [
       {
-        title: "Interactive Handbook Directory",
-        desc: "A digital search index parsing student guidelines, rules, and campus services instantly."
+        title: "Services Directory & Portals",
+        desc: "Dedicated sub-pages for Registrar, Scholarships, Guidance & Counseling, Health Services, Student Organizations, and Cashier info."
       },
       {
-        title: "Campus Notice Board",
-        desc: "A real-time notice board with categorical filters for organization news, scholarships, and academic alerts."
+        title: "Interactive FAQ Chatbot",
+        desc: "A fully client-side mock chatbot responding dynamically to student FAQs regarding office hours, requirements, and contacts."
       },
       {
-        title: "Student Directory Board",
-        desc: "Displays active student organizations, officer contact info, and campus directories."
+        title: "EmailJS Contact Forms",
+        desc: "Secure feedback and contact forms routing student concerns directly to OSAS staff via EmailJS templates."
       },
       {
-        title: "Counselor Contact Funnels",
-        desc: "Secure feedback forms routing student academic and guidance concerns directly to advisors."
+        title: "Masonry Activity Galleries",
+        desc: "Dynamic masonry photo grids and lightbox sliders showcasing historical campus moments, student achievements, and community services."
       }
     ],
-    process: "Created layout layouts in Canva following campus color standards, then engineered the responsive web portal using HTML5, CSS3, JavaScript, and Tailwind CSS.",
-    challenges: "Displaying and filtering extensive static text files on low-end mobile devices without causing browser lag. Resolved by structuring data inside JSON documents, loaded dynamically through asynchronous JS fetch routines.",
+    process: "Mocked up layouts in Canva following campus brand standards, then coded the multi-page portal using semantic HTML5, custom CSS variables, and clean vanilla JS, hosting it on Vercel.",
+    challenges: "Displaying and filtering extensive static text files on low-end mobile devices without causing browser lag. Resolved by structuring data inside JSON documents and loading them dynamically through asynchronous JS fetch routines.",
     results: "Deployed at ISPSC Tagudin Campus, serving over 1,500 students daily and reducing paper printing dependencies by 80%.",
     demoUrl: "https://osas-ispsc-tagudin.vercel.app/",
     githubUrl: "https://github.com/DeoOngotan"
@@ -105,33 +105,33 @@ const CASE_STUDIES = {
   supply: {
     category: "INVENTORY LOGISTICS & TELEMETRY SYSTEMS",
     title: "ISPSC Supply Office System",
-    subtitle: "An inventory dashboard tracking assets, requests, and replenishment alerts for public education institutions.",
-    tech: ["HTML5", "CSS3", "JavaScript", "Firebase Suite", "ChartJS API", "Tailwind CSS"],
+    subtitle: "An inventory logistics dashboard tracking assets, requests, and replenishment alerts with standardized Excel exporters.",
+    tech: ["HTML5", "Tailwind CSS", "Vanilla JavaScript (ES Modules)", "Firebase Suite", "Chart.js", "SheetJS / ExcelJS"],
     organization: "ISPSC Supply Division",
     role: "Lead Developer & UX Architect",
     duration: "5 Months (2023)",
-    overview: "Public university campuses require precise tracking of assets, ranging from classroom computers to office stationery. The ISPSC Supply Office System is an asset logistics and telemetry monitor that automates inventory stock allocations, asset requisition processes, and real-time replenishment tracking, replacing print-heavy logs.",
+    overview: "The ISPSC Supply Office System is an elegant, real-time Supply Management and Resource Monitoring System designed specifically for the ISPSC Supply Office. It streamlines supply requests, monitors inventory status, issues alerts for low-stock items, registers equipment using property ledger card structures, and facilitates department-level asset tracking.",
     bgClass: "visual-supply",
     features: [
       {
-        title: "Real-Time Asset Telemetry",
-        desc: "A dynamic inventory monitor tracking asset stock levels and automatically raising warning flags for low reserves."
+        title: "Property Ledger Cards (PAR)",
+        desc: "Digital ledger sheets mapping assets to specific personnel, locations, brands, and models, tracking their useful life and control numbers."
       },
       {
-        title: "Automated Requisition Pipeline",
-        desc: "Enables campus departments to submit stock requests online, routing alerts directly to supply officers."
+        title: "Low Stock Alert System",
+        desc: "Visual triggers and system alerts when supply stock levels fall below the critical threshold of 8 items."
       },
       {
-        title: "Interactive Consumption Charts",
-        desc: "Uses ChartJS to visualize monthly inventory distribution rates and departmental consumption trends."
+        title: "Interactive Request Workflow",
+        desc: "Enables campus departments to submit stock requests online, routing real-time approval actions directly to supply officers."
       },
       {
-        title: "Role-Based Staff Access",
-        desc: "Restricts stock updates, asset checkouts, and dispatch signatures to authorized administrative personnel."
+        title: "Excel Exporters & Charts",
+        desc: "Visual dashboard visualizations utilizing Chart.js, paired with automated SheetJS and ExcelJS workbooks mapped to Property Ledger Card 2026 templates."
       }
     ],
-    process: "Designed high-fidelity mockups in Canva, then built the responsive logistics panel using HTML5, CSS3, JavaScript, Tailwind CSS, and ChartJS, backed by Firebase Database rules.",
-    challenges: "Synchronizing database updates without slowing down administrative machines. Resolved by optimizing Firestore real-time snapshots and utilizing lightweight payload structures.",
+    process: "Designed high-fidelity mockups in Canva, then built the responsive logistics panel using HTML5, Tailwind CSS, JavaScript (ES modules), Chart.js, and SheetJS/ExcelJS libraries on a Firebase backend.",
+    challenges: "Designing a seamless custom Excel generation framework that correctly formats complex merged cells for the standardized property ledger cards. Resolved by using ExcelJS to write layout structures cell-by-cell.",
     results: "Successfully deployed inside the supply division, managing 2,000+ school assets and reducing resource requisition delay from days to minutes.",
     demoUrl: "https://ispsc-supply-office.web.app/",
     githubUrl: "https://github.com/DeoOngotan"
@@ -139,33 +139,33 @@ const CASE_STUDIES = {
   marienglish: {
     category: "ACADEMIC PORTALS & SESSION SCHEDULING",
     title: "Mari English Academy",
-    subtitle: "A bilingual tutoring reservation system and parent-teacher information board built for a premium academy.",
-    tech: ["React JS", "Firebase Suite", "Tailwind CSS", "Google Fonts API"],
+    subtitle: "A bilingual tutoring reservation system and parent-teacher information board built for a premium academy in Suwon, South Korea.",
+    tech: ["HTML5", "Vanilla JavaScript (ES6+)", "Tailwind CSS", "Firebase Suite", "Translation Engine"],
     organization: "Mari English Academy (Suwon, South Korea)",
     role: "Solo Frontend Developer & Designer",
     duration: "3 Months (2024)",
-    overview: "Mari English Academy, located in Maetan-dong, Suwon, South Korea, offers premium English education. The Mari English portal manages class session reservations, parent-teacher reviews, and tutoring schedules, solving manual calendar coordination overhead across different languages.",
+    overview: "The Mari English Academy management and student platform provides a premium English education web portal for kindergarten, elementary, and adult students in Maetan-dong, Suwon. It includes a public landing page, bilingual lesson reservation calendars, and a robust administrator dashboard powered by a serverless Firebase backend.",
     bgClass: "visual-marienglish",
     features: [
       {
-        title: "Bilingual Session Reservation",
-        desc: "Allows parents and students to schedule private English tutoring classes using responsive calendar sheets."
+        title: "Bilingual Translation Engine",
+        desc: "Custom translations framework to instantly toggle the entire web portal content between Korean (한국어) and English."
       },
       {
-        title: "Categorized Curriculum Showcase",
-        desc: "Visual grids detailing class focuses, schedules, and targets for kindergarten, elementary, and adult levels."
+        title: "Student Session Reservation",
+        desc: "Enables registered students and parents to view available English tutoring classes and book learning slots directly."
       },
       {
-        title: "Parent-Teacher Portals",
-        desc: "Real-time communication notice boards updating parents on class announcements and homework logs."
+        title: "Admin Management & Logs",
+        desc: "Allows operators to review, approve, reschedule, or cancel student appointments, manage student records, and trace history logs."
       },
       {
-        title: "Bilingual Localized Layout",
-        desc: "Designed custom translation wrappers to adjust content layouts seamlessly between Korean and English."
+        title: "Cinematic Visual Identity",
+        desc: "Premium theme layout featuring custom typography, dark mode, smooth animations, and gold styling elements."
       }
     ],
-    process: "Mocked up the layout in Canva with a premium dark-navy theme, and developed the frontend using React and Tailwind CSS with Firebase Hosting integrations.",
-    challenges: "Ensuring text grids and typography rules wrapped correctly across different English and Korean word lengths. Resolved by utilizing responsive CSS flexbox wrappers.",
+    process: "Mocked up the layout in Canva with a premium dark-navy theme, then coded the frontend using HTML5, Vanilla JavaScript, and Tailwind CSS, deployed via Firebase Hosting and Firestore.",
+    challenges: "Maintaining text grid alignment and typography scale across different Korean and English sentence structures. Resolved by utilizing responsive CSS flexbox wrappers and custom local translation mappings.",
     results: "Deployed in Suwon, registering over 100 student bookings and simplifying administrative reservation overhead.",
     demoUrl: "https://mari-english.web.app/",
     githubUrl: "https://github.com/DeoOngotan"

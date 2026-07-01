@@ -1950,7 +1950,7 @@ body.dark-mode .floating-badge {
    RESPONSIVENESS BREAKPOINTS
    ========================================================================== */
 
-@media (max-width: 1200px) {
+@media (max-width: 1440px) {
   .hero-headline {
     font-size: 3.5rem;
   }
@@ -2189,7 +2189,7 @@ body.dark-mode .floating-badge {
   height: 1.15em;
   vertical-align: top;
   overflow: hidden;
-  min-width: 380px;
+  min-width: 11.5em;
   text-align: left;
 }
 
@@ -2198,6 +2198,7 @@ body.dark-mode .floating-badge {
   left: 0;
   top: 0;
   width: 100%;
+  white-space: nowrap;
   opacity: 0;
   transform: translateY(30px);
   background: linear-gradient(135deg, #0066cc 20%, #3b82f6 80%);
