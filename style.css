@@ -2014,6 +2014,11 @@ body.dark-mode .floating-badge {
   .nav-menu {
     display: none;
   }
+
+  .case-hero-visual {
+    height: 380px;
+    margin-bottom: 60px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -2091,6 +2096,11 @@ body.dark-mode .floating-badge {
     gap: 16px;
     text-align: center;
   }
+
+  .case-hero-visual {
+    height: 280px;
+    margin-bottom: 40px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -2160,6 +2170,11 @@ body.dark-mode .floating-badge {
 
   .social-link-btn {
     text-align: center;
+  }
+
+  .case-hero-visual {
+    height: 200px;
+    margin-bottom: 30px;
   }
 }
 

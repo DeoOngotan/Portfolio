@@ -9,6 +9,7 @@ const CASE_STUDIES = {
     role: "Fullstack Web Developer & UI/UX Designer",
     duration: "3 Months (2024)",
     overview: "DigiTrike Sudipen is a modern, real-time ridesharing web and mobile platform built specifically for passenger-driver matchmaking. It supports interactive real-time mapping, location synchronization, dynamic fare estimation, document-based role registration, comprehensive admin panels, and native Android deployment via Capacitor.",
+    image: "Digitrike.png",
     bgClass: "visual-digitrike",
     features: [
       {
@@ -43,6 +44,7 @@ const CASE_STUDIES = {
     role: "Fullstack Web Developer & UX Designer",
     duration: "4 Months (2023)",
     overview: "EunoiaMind is a premium, modern, and comprehensive web-based Psychological Counseling & Appointment System. Built with a stunning aesthetic and robust functionality, EunoiaMind integrates seamlessly with Firebase to connect clients seeking mental health support with administrative managers and counselors. It features science-backed, interactive therapeutic tools like the Breathing Bubble and Gratitude Garden to help clients cultivate mindfulness and manage stress in real-time.",
+    image: "EunoiaMind.png",
     bgClass: "visual-eunoiamind",
     features: [
       {
@@ -77,6 +79,7 @@ const CASE_STUDIES = {
     role: "Solo Frontend Engineer & Designer",
     duration: "3 Months (2024)",
     overview: "The Office of Student Affairs and Services (OSAS) Portal of the ISPSC Tagudin Campus is a premium, modern, responsive, and highly interactive multi-page web application. It serves as a digital information hub linking students to active clubs, registrar handbooks, health services, cashier billing guidelines, and counselor channels.",
+    image: "Osas.png",
     bgClass: "visual-osas",
     features: [
       {
@@ -111,6 +114,7 @@ const CASE_STUDIES = {
     role: "Lead Developer & UX Architect",
     duration: "5 Months (2023)",
     overview: "The ISPSC Supply Office System is an elegant, real-time Supply Management and Resource Monitoring System designed specifically for the ISPSC Supply Office. It streamlines supply requests, monitors inventory status, issues alerts for low-stock items, registers equipment using property ledger card structures, and facilitates department-level asset tracking.",
+    image: "SupplyOffice.png",
     bgClass: "visual-supply",
     features: [
       {
@@ -145,6 +149,7 @@ const CASE_STUDIES = {
     role: "Solo Frontend Developer & Designer",
     duration: "3 Months (2024)",
     overview: "The Mari English Academy management and student platform provides a premium English education web portal for kindergarten, elementary, and adult students in Maetan-dong, Suwon. It includes a public landing page, bilingual lesson reservation calendars, and a robust administrator dashboard powered by a serverless Firebase backend.",
+    image: "Mari-English.png",
     bgClass: "visual-marienglish",
     features: [
       {
@@ -350,9 +355,7 @@ class MorphController {
 
       <!-- Morph target visual placeholder -->
       <div class="case-hero-visual ${data.bgClass}" id="case-hero-visual-target" style="opacity:0; transition: opacity 0.3s ease;">
-        <div class="project-fallback-bg" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
-           <span style="font-size: 2rem; font-weight: 800; opacity: 0.25;">${data.title} Presentation</span>
-        </div>
+        <img src="${data.image}" alt="${data.title} Presentation" style="width: 100%; height: 100%; object-fit: cover; object-position: top; display: block;">
       </div>
 
       <div class="case-section-block case-fade-in">
