@@ -2101,6 +2101,20 @@ body.dark-mode .floating-badge {
     height: 280px;
     margin-bottom: 40px;
   }
+
+  .hero-section {
+    padding-bottom: 140px;
+  }
+
+  .scroll-indicator-wrap {
+    position: static;
+    margin: 40px auto 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 110;
+    pointer-events: none;
+  }
 }
 
 @media (max-width: 480px) {
@@ -2118,6 +2132,10 @@ body.dark-mode .floating-badge {
     justify-content: center;
   }
   
+  .hero-section {
+    padding-bottom: 140px;
+  }
+
   .profile-depth-card {
     width: 280px;
     height: 360px;
@@ -2128,6 +2146,16 @@ body.dark-mode .floating-badge {
     width: 128%;
   }
   
+  .scroll-indicator-wrap {
+    position: static;
+    margin: 40px auto 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 110;
+    pointer-events: none;
+  }
+
   .contact-form {
     padding: 24px;
   }
